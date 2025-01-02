@@ -5,7 +5,7 @@ function Header() {
     <>
       <header className="flex justify-between items-center w-full mt-2 px-6 py-1 z-50 backdrop-blur">
         <h1 className="text-2xl font-bold">
-          <a href="/">Inssue</a>
+          <a href="/">Zimmer</a>
         </h1>
 
         <div>
