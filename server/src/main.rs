@@ -4,11 +4,18 @@ use sqlx::postgres::PgPool;
 use std::io;
 use std::env;
 
+#[path="./routes.rs"]
 mod routes;
+#[path="./handlers/mod.rs"]
 mod handlers;
+#[path="./models/mod.rs"]
 mod models;
+#[path="./state.rs"]
 mod state;
+#[path="./dbaccess/mod.rs"]
 mod dbaccess;
+#[path="./errors.rs"]
+mod errors;
 
 use routes::*;
 use state::AppState;

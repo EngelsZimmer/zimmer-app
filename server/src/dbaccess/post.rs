@@ -1,28 +1,31 @@
 use sqlx::postgres::PgPool;
 use crate::models::post::*;
+use crate::errors::ZimmerError;
 
-pub async fn new_post_db(pool: &PgPool, new_post: CreatePost) -> Post {
+pub async fn new_post_db(pool: &PgPool, new_post: NewPost) -> Result<Post, ZimmerError> {
+    let email = String::from("user@example.com");
     let post_row = sqlx::query!(
-        "INSERT INTO posts (post_title, post_content) VALUES ($1, $2)
-        RETURNING post_id, post_title, post_content, post_view, post_time,user_email",
+        "INSERT INTO posts (post_title, post_content, user_email)
+        VALUES ($1, $2, $3)
+        RETURNING post_id, post_title, post_content, post_view, post_time, user_email",
         new_post.post_title,
         new_post.post_content,
+        email,
     )
     .fetch_one(pool)
-    .await
-    .unwrap();
+    .await?;
 
-    Post {
+    Ok(Post {
         post_id: post_row.post_id,
-        post_title: post_row.post_title.clone().unwrap(),
-        post_content: post_row.post_content.clone().unwrap(),
-        post_view: post_row.post_view.unwrap(),
+        post_title: post_row.post_title.clone(),
+        post_content: post_row.post_content.clone(),
+        post_view: post_row.post_view,
         post_time: Some(chrono::NaiveDateTime::from(post_row.post_time.unwrap())),
-        user_email: post_row.user_email.clone().unwrap(),
-    }
+        user_email: post_row.user_email.clone(),
+    })
 }
 
-pub async fn get_post_details_db(pool: &PgPool, post_id: i32) -> Post {
+pub async fn get_post_details_db(pool: &PgPool, post_id: i32) -> Result<Post, ZimmerError> {
     let post_row = sqlx::query!(
         "SELECT *
         FROM posts
@@ -30,20 +33,19 @@ pub async fn get_post_details_db(pool: &PgPool, post_id: i32) -> Post {
         post_id
     )
     .fetch_one(pool)
-    .await
-    .unwrap();
+    .await?;
 
-    Post {
+    Ok(Post {
         post_id: post_row.post_id,
-        post_title: post_row.post_title.clone().unwrap(),
-        post_content: post_row.post_content.clone().unwrap(),
-        post_view: post_row.post_view.unwrap(),
+        post_title: post_row.post_title.clone(),
+        post_content: post_row.post_content.clone(),
+        post_view: post_row.post_view,
         post_time: Some(chrono::NaiveDateTime::from(post_row.post_time.unwrap())),
-        user_email: post_row.user_email.clone().unwrap(),
-    }
+        user_email: post_row.user_email.clone(),
+    })
 }
 
-pub async fn update_post_details_db(pool: &PgPool, post_id: i32, update_post: UpdatePost) -> Post {
+pub async fn update_post_details_db(pool: &PgPool, post_id: i32, update_post: UpdatePost) -> Result<Post, ZimmerError> {
     let current_post_row = sqlx::query!(
         "SELECT *
         FROM posts
@@ -52,17 +54,17 @@ pub async fn update_post_details_db(pool: &PgPool, post_id: i32, update_post: Up
     )
     .fetch_one(pool)
     .await
-    .unwrap();
+    .map_err(|_err| ZimmerError::NotFound("Post id not found".into()))?;
 
     let title: String = if let Some(title) = update_post.post_title {
         title
     } else {
-        current_post_row.post_title.unwrap_or_default()
+        current_post_row.post_title
     };
     let content: String = if let Some(content) = update_post.post_content {
         content
     } else {
-        current_post_row.post_content.unwrap_or_default()
+        current_post_row.post_content
     };
 
     let post_row = sqlx::query!(
@@ -76,28 +78,26 @@ pub async fn update_post_details_db(pool: &PgPool, post_id: i32, update_post: Up
         post_id
     )
     .fetch_one(pool)
-    .await
-    .unwrap();
+    .await?;
 
-    Post {
+    Ok(Post {
         post_id: post_row.post_id,
-        post_title: post_row.post_title.clone().unwrap(),
-        post_content: post_row.post_content.clone().unwrap(),
-        post_view: post_row.post_view.unwrap(),
+        post_title: post_row.post_title.clone(),
+        post_content: post_row.post_content.clone(),
+        post_view: post_row.post_view,
         post_time: Some(chrono::NaiveDateTime::from(post_row.post_time.unwrap())),
-        user_email: post_row.user_email.clone().unwrap(),
-    }
+        user_email: post_row.user_email.clone(),
+    })
 }
 
-pub async fn delete_post_db(pool: &PgPool, post_id: i32) -> String {
+pub async fn delete_post_db(pool: &PgPool, post_id: i32) -> Result<String, ZimmerError> {
     let post_row = sqlx::query!(
         "DELETE FROM posts
         WHERE post_id=$1",
         post_id
     )
     .execute(pool)
-    .await
-    .unwrap();
+    .await?;
 
-    format!("Deleted {:#?} record", post_row)
+    Ok(format!("Deleted {:#?} record", post_row))
 }

@@ -8,7 +8,7 @@ pub fn general_route(cfg: &mut web::ServiceConfig) {
 pub fn post_route(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/post")
-            .route("/", web::post().to(new_post))
+            .route("", web::post().to(new_post))
             .route("/{post_id}", web::get().to(get_post_details))
             .route("/{post_id}", web::put().to(update_post_details))
             .route("/{post_id}", web::delete().to(delete_post)),
