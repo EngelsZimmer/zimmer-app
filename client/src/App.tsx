@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -87,7 +88,9 @@ function App() {
             {posts.map((post) => (
               <TableRow key={post.id}>
                 <TableCell className="text-center">{post.id}</TableCell>
-                <TableCell>{post.title}</TableCell>
+                <TableCell>
+                  <Link to="/post/detail">{post.title}</Link>
+                </TableCell>
                 <TableCell className="text-center">{post.author}</TableCell>
                 <TableCell className="text-center">{post.date}</TableCell>
                 <TableCell className="text-center">{post.views}</TableCell>
