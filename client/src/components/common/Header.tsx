@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
     <>
       <header className="flex justify-between items-center w-full mt-2 px-6 py-1 z-50 backdrop-blur">
         <h1 className="text-2xl font-bold">
-          <a href="/">Zimmer</a>
+          <Link to="/">Zimmer</Link>
         </h1>
 
         <div>
@@ -13,7 +14,7 @@ function Header() {
             <a href="/">글쓰기</a>
           </Button>
           <Button asChild>
-            <a href="/">로그인</a>
+            <Link to="/login">로그인</Link>
           </Button>
         </div>
       </header>
