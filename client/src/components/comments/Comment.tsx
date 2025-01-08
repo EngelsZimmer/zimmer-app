@@ -35,7 +35,7 @@ const currentUser = {
   name: "김철수",
 };
 
-export default function NoticeDetail() {
+export default function Comment() {
   return (
     <div className="container mx-auto p-4 max-w-4xl">
       <Card className="mb-6">

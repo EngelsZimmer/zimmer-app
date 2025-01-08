@@ -84,6 +84,7 @@ export default function Feed() {
           </SelectContent>
         </Select>
       </div>
+
       <div className="space-y-4">
         {sortedPosts.map((post) => (
           <PostCard key={post.id} post={post} />

@@ -96,7 +96,7 @@ function NoticePage() {
               <TableRow key={post.id}>
                 <TableCell className="text-center">{post.id}</TableCell>
                 <TableCell>
-                  <Link to="/post/detail">{post.title}</Link>
+                  <Link to="/notice/detail">{post.title}</Link>
                 </TableCell>
                 <TableCell className="text-center">{post.author}</TableCell>
                 <TableCell className="text-center">{post.date}</TableCell>
