@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -102,12 +103,12 @@ export default function LoginPage() {
         <CardFooter>
           <p className="text-center text-sm text-gray-600 mt-2 w-full">
             계정이 없으신가요?{" "}
-            <a
-              href="#"
+            <Link
+              to="/signup"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
               회원가입
-            </a>
+            </Link>
           </p>
         </CardFooter>
       </Card>

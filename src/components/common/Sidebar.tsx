@@ -15,7 +15,7 @@ export default function Sidebar() {
               개발자들을 위한 커뮤니티입니다. 기술 토론, 질문, 팁 공유를
               환영합니다!
             </p>
-            <Button className="w-full mt-4">
+            <Button asChild className="w-full mt-4">
               <Link to="/post/submit">게시물 작성</Link>
             </Button>
           </CardContent>
