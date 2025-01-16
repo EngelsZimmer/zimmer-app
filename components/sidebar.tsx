@@ -3,7 +3,6 @@ import {
   Home,
   Bell,
   FolderGit2,
-  Orbit,
   BracketsIcon as Bridge,
   Code2,
   Users,
