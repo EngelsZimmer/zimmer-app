@@ -1,53 +1,68 @@
+"use client";
+
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Sidebar } from "@/components/sidebar";
+import { SearchHeader } from "@/components/search-header";
 import { Bookmark } from "lucide-react";
 
 export default function Home() {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   return (
-    <div className="p-6 space-y-12">
-      <section className="relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-900 to-purple-600 p-8 text-white">
-        <div className="relative z-10">
-          <h1 className="text-4xl font-bold mb-4">
-            Ethereum&apos;s Leading Ecosystem
-          </h1>
-          <p className="text-lg text-gray-200">
-            Step into the Arbitrum Portal and discover one of the 900+
-            applications built on Arbitrum
-          </p>
-        </div>
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[url('https://sjc.microlink.io/2TXDm7-DAdxbcDog6PS086r2c2dZpeSl8809stiZ9p0f91RxyVy2qxgWWO66RF11qkJsIBNrfCkhtBCYB_Ga0w.jpeg')] bg-repeat" />
-        </div>
-      </section>
+    <div className="flex h-screen">
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        setIsCollapsed={setIsSidebarCollapsed}
+      />
+      <main className="flex-1 overflow-auto">
+        <SearchHeader />
+        <div className="flex-grow max-w-5xl space-y-12 mx-auto p-4">
+          <section className="relative overflow-hidden rounded-xl w-full bg-gradient-to-r from-emerald-700 to-emerald-500 p-8 text-white">
+            <div className="relative z-10">
+              <h1 className="text-4xl font-bold mb-4">
+                Ethereum&apos;s Leading Ecosystem
+              </h1>
+              <p className="text-lg text-emerald-50">
+                Step into the Arbitrum Portal and discover one of the 900+
+                applications built on Arbitrum
+              </p>
+            </div>
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-[url('https://sjc.microlink.io/2TXDm7-DAdxbcDog6PS086r2c2dZpeSl8809stiZ9p0f91RxyVy2qxgWWO66RF11qkJsIBNrfCkhtBCYB_Ga0w.jpeg')] bg-repeat" />
+            </div>
+          </section>
 
-      <section>
-        <h2 className="text-2xl font-bold mb-6">Trending Projects</h2>
-        <p className="text-gray-400 mb-6">
-          Popular things users are doing and talking about on Arbitrum
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} {...project} />
-          ))}
-        </div>
-      </section>
+          <section className="w-full">
+            <h2 className="text-2xl font-bold mb-2 text-neutral-800">
+              Trending Projects
+            </h2>
+            <p className="text-neutral-500 mb-6 pb-2 border-beige-100 border-b-2">
+              Popular things users are doing and talking about on Arbitrum
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((project) => (
+                <ProjectCard key={project.id} {...project} />
+              ))}
+            </div>
+          </section>
 
-      <section>
-        <h2 className="text-2xl font-bold mb-6">Ecosystem Essentials</h2>
-        <div className="flex gap-2 mb-6 flex-wrap">
-          {categories.map((category) => (
-            <Badge key={category} variant="secondary">
-              {category}
-            </Badge>
-          ))}
+          <section className="w-full">
+            <h2 className="text-2xl font-bold mb-2 text-neutral-800">
+              Ecosystem Essentials
+            </h2>
+            <p className="text-neutral-500 mb-6 pb-2 border-beige-100 border-b-2">
+              Popular things users are doing and talking about on Arbitrum
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {essentials.map((project) => (
+                <ProjectCard key={project.id} {...project} />
+              ))}
+            </div>
+          </section>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {essentials.map((project) => (
-            <ProjectCard key={project.id} {...project} />
-          ))}
-        </div>
-      </section>
+      </main>
     </div>
   );
 }
@@ -84,15 +99,6 @@ function ProjectCard({
     </Card>
   );
 }
-
-const categories = [
-  "DeFi",
-  "AI & DeFi",
-  "Gaming",
-  "NFTs",
-  "Bridges and On-ramps",
-  "Infra & Tools",
-];
 
 const projects = [
   {

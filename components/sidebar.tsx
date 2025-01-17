@@ -1,15 +1,13 @@
 import Link from "next/link";
 import {
   Home,
-  Bell,
   FolderGit2,
-  BracketsIcon as Bridge,
-  Code2,
+  Bell,
   Users,
   HelpCircle,
   ChevronLeft,
+  LucideIcon,
 } from "lucide-react";
-import { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -22,33 +20,29 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   return (
     <div
       className={cn(
-        "relative border-r bg-black border-gray-800 transition-all duration-300",
-        isCollapsed ? "w-[80px]" : "w-64",
+        "relative border-r bg-white border-neutral-200 transition-all duration-300",
+        isCollapsed ? "w-[60px]" : "w-48",
       )}
     >
       <Button
         variant="ghost"
         size="icon"
-        className="absolute -right-4 top-6 z-10 rounded-full border border-gray-800 bg-black"
+        className="absolute -right-2.5 top-10 z-10 h-6 w-6 rounded-full border border-neutral-200 bg-white hover:bg-neutral-100"
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         <ChevronLeft
           className={cn(
-            "h-4 w-4 transition-transform",
+            "h-4 w-4 transition-transform text-neutral-600",
             isCollapsed && "rotate-180",
           )}
         />
       </Button>
 
-      <div className="p-6">
+      <div className="p-4">
         <Link href="/" className="flex items-center gap-2">
-          <img
-            src="https://excalidraw.com/og-image-3.png"
-            alt="Arbitrum Logo"
-            width={32}
-            height={32}
-          />
-          {!isCollapsed && <span className="font-bold text-xl">ZIMMER</span>}
+          {!isCollapsed && (
+            <span className="font-bold text-xl text-neutral-800">ZIMMER</span>
+          )}
         </Link>
       </div>
 
@@ -57,16 +51,10 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           Home
         </NavItem>
         <NavItem href="/notice" icon={Bell} collapsed={isCollapsed}>
-          Notices
+          Notice
         </NavItem>
         <NavItem href="/projects" icon={FolderGit2} collapsed={isCollapsed}>
           Projects
-        </NavItem>
-        <NavItem href="/bridge" icon={Bridge} collapsed={isCollapsed}>
-          Bridge
-        </NavItem>
-        <NavItem href="/developers" icon={Code2} collapsed={isCollapsed}>
-          Developers
         </NavItem>
         <NavItem href="/community" icon={Users} collapsed={isCollapsed}>
           Community
@@ -77,7 +65,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       </nav>
 
       {!isCollapsed && (
-        <div className="absolute bottom-8 px-6 text-sm text-gray-400">
+        <div className="absolute bottom-8 px-6 text-sm text-neutral-500">
           <div>Built with love by Offchain Labs,</div>
           <div>builders of Arbitrum technology.</div>
         </div>
@@ -101,7 +89,7 @@ function NavItem({
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors",
+        "flex items-center gap-3 px-3 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors",
         collapsed && "justify-center",
       )}
       title={collapsed ? String(children) : undefined}
