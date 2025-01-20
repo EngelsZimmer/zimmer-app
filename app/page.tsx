@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
-import { SearchHeader } from "@/components/search-header";
+import { SearchHeader } from "@/components/header/search-header";
 import ProjectCard from "@/components/ui/project-card";
 import { Badge } from "@/components/ui/badge";
 
@@ -18,7 +18,7 @@ export default function Home() {
         <SearchHeader />
 
         {/* Page */}
-        <div className="p-6 space-y-12">
+        <div className="mx-auto max-w-7xl p-6 space-y-12">
           <section className="relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-900 to-purple-600 p-8 text-white">
             <div className="relative z-10">
               <h1 className="text-4xl font-bold mb-4">
