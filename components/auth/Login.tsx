@@ -98,7 +98,7 @@ export default function LoginPage() {
         </Button>
       </CardContent>
       <CardFooter>
-        <p className="text-center text-sm text-gray-600 mt-2 w-full">
+        <p className="text-center text-sm text-muted-foreground mt-2 w-full">
           계정이 없으신가요?{" "}
           <a
             href="/signup"

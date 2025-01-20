@@ -1,15 +1,18 @@
 import Link from "next/link";
 import {
   Home,
-  FolderGit2,
-  Bell,
+  Compass,
   Users,
+  Settings,
   HelpCircle,
+  ChevronDown,
+  ChevronUp,
   ChevronLeft,
-  LucideIcon,
 } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import NavItem from "@/components/ui/nav-item";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -17,22 +20,23 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
+  const [isSubscriptionsExpanded, setIsSubscriptionsExpanded] = useState(false);
   return (
     <div
       className={cn(
-        "relative border-r bg-white border-neutral-200 transition-all duration-300",
-        isCollapsed ? "w-[60px]" : "w-48",
+        "relative border-r border-gray-800 transition-all duration-300",
+        isCollapsed ? "w-[60px]" : "w-56",
       )}
     >
       <Button
         variant="ghost"
         size="icon"
-        className="absolute -right-2.5 top-10 z-10 h-6 w-6 rounded-full border border-neutral-200 bg-white hover:bg-neutral-100"
+        className="absolute -right-2.5 top-10 z-10 h-6 w-6 rounded-full border border-muted-foreground-200 bg-gray-800 hover:bg-neutral-100"
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         <ChevronLeft
           className={cn(
-            "h-4 w-4 transition-transform text-neutral-600",
+            "h-4 w-4 transition-transform",
             isCollapsed && "rotate-180",
           )}
         />
@@ -40,27 +44,117 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
       <div className="p-4">
         <Link href="/" className="flex items-center gap-2">
-          {!isCollapsed && (
-            <span className="font-bold text-xl text-neutral-800">ZIMMER</span>
-          )}
+          {!isCollapsed && <h1 className="font-bold text-xl">ZIMMER</h1>}
         </Link>
       </div>
 
-      <nav className="space-y-1 px-2">
+      <nav className="space-y-1 px-3 py-6">
         <NavItem href="/" icon={Home} collapsed={isCollapsed}>
-          Home
+          홈
         </NavItem>
-        <NavItem href="/notice" icon={Bell} collapsed={isCollapsed}>
-          Notice
+        <NavItem href="/explore" icon={Compass} collapsed={isCollapsed}>
+          탐색
         </NavItem>
-        <NavItem href="/projects" icon={FolderGit2} collapsed={isCollapsed}>
-          Projects
-        </NavItem>
-        <NavItem href="/community" icon={Users} collapsed={isCollapsed}>
-          Community
+
+        {!isCollapsed && (
+          <div className="pt-2">
+            <div className="border-t border-neutral-600 pb-2"></div>
+          </div>
+        )}
+        {!isCollapsed && (
+          <>
+            <div className="px-3 pt-2">참여</div>
+            <NavItem
+              href="/subscriptions/1"
+              icon={Users}
+              collapsed={isCollapsed}
+            >
+              참여 목록
+            </NavItem>
+            <NavItem
+              href="/subscriptions/1"
+              icon={Users}
+              collapsed={isCollapsed}
+            >
+              참여 목록
+            </NavItem>
+            <NavItem
+              href="/subscriptions/1"
+              icon={Users}
+              collapsed={isCollapsed}
+            >
+              참여 목록
+            </NavItem>
+            <NavItem
+              href="/subscriptions/1"
+              icon={Users}
+              collapsed={isCollapsed}
+            >
+              참여 목록
+            </NavItem>
+            <NavItem
+              href="/subscriptions/1"
+              icon={Users}
+              collapsed={isCollapsed}
+            >
+              참여 목록
+            </NavItem>
+            {isSubscriptionsExpanded && (
+              <>
+                <NavItem
+                  href="/subscriptions/1"
+                  icon={Users}
+                  collapsed={isCollapsed}
+                >
+                  참여 목록
+                </NavItem>
+                <NavItem
+                  href="/subscriptions/1"
+                  icon={Users}
+                  collapsed={isCollapsed}
+                >
+                  참여 목록
+                </NavItem>
+                <NavItem
+                  href="/subscriptions/1"
+                  icon={Users}
+                  collapsed={isCollapsed}
+                >
+                  참여 목록
+                </NavItem>
+              </>
+            )}
+            <Button
+              variant="ghost"
+              className="w-full justify-start px-4 py-2 text-sm hover:bg-primary"
+              onClick={() =>
+                setIsSubscriptionsExpanded(!isSubscriptionsExpanded)
+              }
+            >
+              {isSubscriptionsExpanded ? (
+                <>
+                  <ChevronUp className="mr-2 h-4 w-4" />
+                  간략히 보기
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="mr-2 h-4 w-4" />더 보기
+                </>
+              )}
+            </Button>
+          </>
+        )}
+        {!isCollapsed && (
+          <div className="pt-2">
+            <div className="border-t border-neutral-600 pb-2"></div>
+          </div>
+        )}
+
+        <NavItem href="/settings" icon={Settings} collapsed={isCollapsed}>
+          설정
         </NavItem>
         <NavItem href="/help" icon={HelpCircle} collapsed={isCollapsed}>
-          Get Help
+          고객센터
         </NavItem>
       </nav>
 
@@ -71,31 +165,5 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         </div>
       )}
     </div>
-  );
-}
-
-function NavItem({
-  href,
-  icon: Icon,
-  children,
-  collapsed,
-}: {
-  href: string;
-  icon: LucideIcon;
-  children: React.ReactNode;
-  collapsed: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "flex items-center gap-3 px-3 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors",
-        collapsed && "justify-center",
-      )}
-      title={collapsed ? String(children) : undefined}
-    >
-      <Icon className="h-5 w-5" />
-      {!collapsed && children}
-    </Link>
   );
 }

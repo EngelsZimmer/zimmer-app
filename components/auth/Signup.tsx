@@ -106,7 +106,7 @@ export default function SignUp() {
         </Button>
       </CardContent>
       <CardFooter>
-        <p className="text-center text-sm text-gray-600 mt-2 w-full">
+        <p className="text-center text-sm text-muted-foreground mt-2 w-full">
           회원이신가요?{" "}
           <a
             href="/login"

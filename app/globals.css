@@ -4,35 +4,65 @@
 
 @layer base {
     :root {
-        --background: 30 23% 90%; /* 베이지색 배경 */
-        --foreground: 20 14% 10%; /* 어두운 갈색 텍스트 */
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
 
-        --card: 40 22% 85%; /* 따뜻한 황토색 카드 배경 */
-        --card-foreground: 20 14% 10%; /* 카드 텍스트 */
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
 
-        --popover: 40 22% 85%;
-        --popover-foreground: 20 14% 10%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
 
-        --primary: 36 65% 50%; /* 황금색 버튼 */
-        --primary-foreground: 0 0% 100%; /* 버튼 텍스트 */
+        --primary: 272.1 91.7% 43.9%;
+        --primary-foreground: 0 0% 98%;
 
-        --secondary: 146 22% 40%; /* 어두운 초록 */
-        --secondary-foreground: 60 7% 95%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
 
-        --muted: 60 6% 88%; /* 차분한 배경 */
-        --muted-foreground: 24 9% 30%;
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
 
-        --accent: 0 45% 65%; /* 밝은 붉은색 */
-        --accent-foreground: 0 0% 100%;
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
 
-        --destructive: 0 62% 60%;
-        --destructive-foreground: 60 7% 95%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
 
-        --border: 30 6% 70%;
-        --input: 30 6% 70%;
-        --ring: 36 65% 50%;
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 0 0% 3.9%;
 
         --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+
+        --card: 0 0% 3.9%;
+        --card-foreground: 0 0% 98%;
+
+        --popover: 0 0% 3.9%;
+        --popover-foreground: 0 0% 98%;
+
+        --primary: 272.1 91.7% 43.9%;
+        --primary-foreground: 0 0% 98%;
+
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+        --ring: 0 0% 83.1%;
     }
 }
 
