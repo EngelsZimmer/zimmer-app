@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,21 +18,72 @@ import { Separator } from "@/components/ui/separator";
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    if (!validateEmail(value)) {
+      setEmailError("올바른 이메일 형식을 입력하세요.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    if (!validatePassword(value)) {
+      setPasswordError(
+        "비밀번호는 영어 소문자와 숫자를 조합하여 8자 이상이어야 합니다.",
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const handleConfirmPasswordChange = (value: string) => {
+    setConfirmPassword(value);
+    if (value !== password) {
+      setConfirmPasswordError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
+  useEffect(() => {
+    // 모든 유효성 검사가 통과하면 버튼 활성화
+    setIsFormValid(
+      validateEmail(email) &&
+        validatePassword(password) &&
+        password === confirmPassword,
+    );
+  }, [email, password, confirmPassword]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    // 여기에 실제 회원가입 로직이 들어갈 수 있습니다.
+
+    // 회원가입 로직
     setTimeout(() => {
       setIsLoading(false);
       alert("회원가입 기능은 아직 구현되지 않았습니다.");
     }, 2000);
-  };
-
-  const handleOAuthSignUp = (provider: string) => {
-    // TODO: Implement OAuth login logic
-    console.log(`Attempting to login with ${provider}`);
   };
 
   return (
@@ -54,25 +105,44 @@ export default function SignUp() {
               type="email"
               placeholder="name@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => handleEmailChange(e.target.value)}
               required
             />
+            {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div>
             <Label htmlFor="password">비밀번호</Label>
             <Input
               id="password"
               type="password"
+              placeholder="영어 소문자와 숫자를 포함한 8자 이상"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => handlePasswordChange(e.target.value)}
               required
             />
+            {passwordError && (
+              <p className="text-red-500 text-sm">{passwordError}</p>
+            )}
           </div>
           <div>
-            <Label htmlFor="password">비밀번호 확인</Label>
-            <Input id="password" type="password" required />
+            <Label htmlFor="confirmPassword">비밀번호 확인</Label>
+            <Input
+              id="confirmPassword"
+              type="password"
+              placeholder="비밀번호 확인"
+              value={confirmPassword}
+              onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+              required
+            />
+            {confirmPasswordError && (
+              <p className="text-red-500 text-sm">{confirmPasswordError}</p>
+            )}
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={!isFormValid || isLoading}
+          >
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
@@ -96,9 +166,7 @@ export default function SignUp() {
           type="button"
           className="w-full mt-4"
           onClick={() =>
-            handleOAuthSignUp(
-              "Google 회원가입 기능은 아직 구현되지 않았습니다.",
-            )
+            console.log("Google 회원가입 기능은 아직 구현되지 않았습니다.")
           }
         >
           <Icons.google className="mr-2 h-4 w-4" />
