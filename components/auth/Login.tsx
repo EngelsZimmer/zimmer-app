@@ -26,10 +26,10 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const response = await axios.post("http://127.0.0.1:8000/user/login", {
-        email,
-        password,
+        user_email: email,
+        user_password: password,
       });
-      alert("로그인 성공: " + JSON.stringify(response.data));
+      alert("로그인 성공: " + response.data.user_email);
       // 로그인 성공 후 처리 로직 추가 (예: 토큰 저장, 페이지 이동 등)
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
