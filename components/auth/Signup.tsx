@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +18,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 export default function SignUp() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,6 +29,7 @@ export default function SignUp() {
 
   const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,6 +39,10 @@ export default function SignUp() {
   const validatePassword = (password: string) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/;
     return passwordRegex.test(password);
+  };
+
+  const handleNameChange = (value: string) => {
+    setName(value);
   };
 
   const handleEmailChange = (value: string) => {
@@ -79,11 +87,28 @@ export default function SignUp() {
     event.preventDefault();
     setIsLoading(true);
 
-    // 회원가입 로직
-    setTimeout(() => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/user/signup", {
+        user_email: email,
+        user_password: password,
+        user_name: name,
+      });
+      alert("회원가입 성공: " + response.data.user_id);
+      router.push("/");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        // AxiosError인 경우에만 처리
+        alert(
+          "회원가입 실패: " + (error.response?.data?.message || "서버 오류"),
+        );
+      } else {
+        // 기타 에러
+        console.error("Unexpected error:", error);
+        alert("회원가입 실패: 예기치 못한 오류 발생");
+      }
+    } finally {
       setIsLoading(false);
-      alert("회원가입 기능은 아직 구현되지 않았습니다.");
-    }, 2000);
+    }
   };
 
   return (
@@ -98,6 +123,17 @@ export default function SignUp() {
       </CardHeader>
       <CardContent className="space-y-4">
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="email">이름</Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="홍길동"
+              value={name}
+              onChange={(e) => handleNameChange(e.target.value)}
+              required
+            />
+          </div>
           <div>
             <Label htmlFor="email">이메일</Label>
             <Input

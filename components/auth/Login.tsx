@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,7 +32,7 @@ export default function LoginPage() {
         user_password: password,
       });
       alert("로그인 성공: " + response.data.user_email);
-      // 로그인 성공 후 처리 로직 추가 (예: 토큰 저장, 페이지 이동 등)
+      router.push("/");
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         // AxiosError인 경우에만 처리
