@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,11 +24,25 @@ export default function LoginPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    // 여기에 실제 회원가입 로직이 들어갈 수 있습니다.
-    setTimeout(() => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/user/login", {
+        email,
+        password,
+      });
+      alert("로그인 성공: " + JSON.stringify(response.data));
+      // 로그인 성공 후 처리 로직 추가 (예: 토큰 저장, 페이지 이동 등)
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        // AxiosError인 경우에만 처리
+        alert("로그인 실패: " + (error.response?.data?.message || "서버 오류"));
+      } else {
+        // 기타 에러
+        console.error("Unexpected error:", error);
+        alert("로그인 실패: 예기치 못한 오류 발생");
+      }
+    } finally {
       setIsLoading(false);
-      alert("회원가입 기능은 아직 구현되지 않았습니다.");
-    }, 2000);
+    }
   };
 
   const handleOAuthLogin = (provider: string) => {
